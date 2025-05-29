@@ -25,8 +25,12 @@ class TestRoutes(CoreTestCase):
         )
         for url, client, status in urls:
             with self.subTest(url=url, client=client, status=status):
+                if url == URL.logout:
+                    response = client.post(url)
+                else:
+                    response = client.get(url)
                 self.assertEqual(
-                    client.get(url).status_code,
+                    response.status_code,
                     status,
                     msg=(f'Проверьте, код ответа страницы "{url}" '
                          'соответствует ожидаемому.'),
